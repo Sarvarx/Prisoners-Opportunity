@@ -9,9 +9,7 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: LiberationSans SDF Material
   m_Shader: {fileID: 4800000, guid: fe393ace9b354375a9cb14cdbbc28be4, type: 3}
-  m_ValidKeywords:
-  - OUTLINE_ON
-  - UNDERLAY_ON
+  m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 1
   m_EnableInstancingVariants: 0
@@ -81,8 +79,8 @@ MonoBehaviour:
   material: {fileID: 2180264}
   materialHashCode: 198912371
   m_Version: 1.1.0
-  m_SourceFontFileGUID: e3265ab4bf004d28a9537516768c1c75
-  m_SourceFontFile_EditorRef: {fileID: 12800000, guid: e3265ab4bf004d28a9537516768c1c75,
+  m_SourceFontFileGUID: 776cbb16066f79f4ca1008ff9b3da206
+  m_SourceFontFile_EditorRef: {fileID: 12800000, guid: 776cbb16066f79f4ca1008ff9b3da206,
     type: 3}
   m_SourceFontFile: {fileID: 0}
   m_AtlasPopulationMode: 0
@@ -7722,7 +7720,7 @@ MonoBehaviour:
       m_FeatureLookupFlags: 0
   fallbackFontAssets: []
   m_FallbackFontAssetTable:
-  - {fileID: 11400000, guid: 2e498d1c8094910479dc3e1b768306a4, type: 2}
+  - {fileID: 11400000}
   m_CreationSettings:
     sourceFontFileName: 
     sourceFontFileGUID: e3265ab4bf004d28a9537516768c1c75
@@ -7732,8 +7730,8 @@ MonoBehaviour:
     packingMode: 4
     atlasWidth: 1024
     atlasHeight: 1024
-    characterSetSelectionMode: 1
-    characterSequence: 32 - 126, 160 - 255, 8192 - 8303, 8364, 8482, 9633
+    characterSetSelectionMode: 6
+    characterSequence: 20-7E,A0-FF,2000-200F,2012-2022,2026,202A-2030,2032-2034,2039-203A,203C,203E,2044,205E,206A-206F,20AC,2122,25A1
     referencedFontAssetGUID: 8f586378b4e144a9851e7b34d9b748ee
     referencedTextAssetGUID: 
     fontStyle: 0

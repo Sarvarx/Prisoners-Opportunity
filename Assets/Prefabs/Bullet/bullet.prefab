@@ -26,8 +26,8 @@ Transform:
   m_GameObject: {fileID: 2209820486824005077}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: -0.53}
-  m_LocalScale: {x: 0.38128, y: 0.38128, z: 0.38128}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 3220120399380311592}
   m_RootOrder: 0
@@ -73,7 +73,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: d17d3c39c93e8244e819d1544eb57ae5, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 4b198246fd28dc146bb1877af0e21a79, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -129,7 +129,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cda87e6ea77b20d4bba52738c423a411, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 90
+  TargetTags:
+  - Units/Fast
+  - Units/Normal
+  - Units/Fat
+  speed: 65
+  explosionRadius: 0
+  explosion: 0
   hit: 0
+  lastBullet: 0
   GroundFlash: {fileID: 353854865182148344, guid: b9bc25c8b06321e438ba3ca54f0cad54,
     type: 3}
+  ownerTurret: {fileID: 0}

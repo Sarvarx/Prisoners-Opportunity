@@ -1,90 +1,136 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+
 
 public class WaveSpawner : MonoBehaviour
 {
     public Transform[] Waypoints;
     public Transform[] units;
+    public Transform unitsParent;
+    public Transform healthBar;
+    public Transform healthBarSpawner;
+    public Health health;
     public ResourceBase resourceBase;
+    public Text waveText;
+    public Text nextWaveTimeText;
+    public Text waveTimeTitle;
+    public Transform nextWaveTimePanel;
+    public Transform endGamePanel;
 
     public int Wave;
-    public int Column;
-    public int Line;
-    public float Space;
-    public float GroupSpace;
-    public float WaveTime;
+    public int SubWave;
+    public int UnitCount;
     public float NextWaveTime;
     [SerializeField] public WaveSpownerModel[] waveData;
 
     float _space;
     float _groupSpace;
-    float _waveTime;
     float _nextWaveTime;
-    int _line;
-
+    bool firstWave = true;
+    bool readyToFinish = false;
     void Start()
     {
         Wave = 0;
-        _waveTime = waveData[Wave].waveTime;
+        SubWave = 0;
+        UnitCount = waveData[Wave].group[SubWave].unitCount;
+        string _waveText = "Wave 1/" + waveData.Length;
+        waveText.text = _waveText;
+        _nextWaveTime = NextWaveTime;
     }
 
     void Update()
     {
-        
-        _waveTime -= Time.deltaTime;
-        if(!(_waveTime <= 0))
+        _nextWaveTime -= Time.deltaTime;
+        if (firstWave)
         {
-            _nextWaveTime = NextWaveTime;
-            _groupSpace -= Time.deltaTime;
-            _space -= Time.deltaTime;
-
-            if (_groupSpace <= 0)
+            waveTimeTitle.text = "First Wave";
+        }
+        if (Wave > waveData.Length-1)
+        {
+            nextWaveTimePanel.gameObject.SetActive(false);
+            if (unitsParent.childCount == 0 && readyToFinish) Win();
+            print("Wave End");
+            return;
+        }
+        nextWaveTimeText.text = ((int)_nextWaveTime) + " sec";
+        if (_nextWaveTime <= 0)
+        {
+            if (SubWave < waveData[Wave].group.Length)
             {
-                if (_space <= 0)
+                _groupSpace -= Time.deltaTime;
+                if (_groupSpace <= 0)
                 {
-
-                    ProduseUnit(units[0], waveData[Wave].column);
-                    _space = waveData[Wave].space;
-                    _line--;
-                    if (_line <= 0)
+                    if (UnitCount > 0)
                     {
+                        _space -= Time.deltaTime;
+                        if (_space <= 0)
+                        {
+                            ProduceUnit(waveData[Wave].group[SubWave].unit);
+                            UnitCount--;
+                            _space = waveData[Wave].group[SubWave].space;
+                        }
+                    }
+                    else
+                    {
+                        SubWave++;
                         _groupSpace = waveData[Wave].groupSpace;
-                        _line = waveData[Wave].line;
-                        
+                        if (SubWave < waveData[Wave].group.Length)
+                        {
+                            UnitCount = waveData[Wave].group[SubWave].unitCount;
+                        }
                     }
                 }
             }
-        }
-        else
-        {
-            
-            _nextWaveTime -= Time.deltaTime;
-            if(_nextWaveTime <= 0)
+            else
             {
+                if (Wave+1 > waveData.Length - 1)
+                {
+                    Wave++;
+                    nextWaveTimePanel.gameObject.SetActive(false);
+                    readyToFinish = true;
+                    return;
+                }
+                firstWave = false;
+                if (unitsParent.childCount != 0) return;
+                nextWaveTimePanel.gameObject.SetActive(true);
                 Wave++;
-                _waveTime = waveData[Wave].waveTime ;
+
+                if(Wave == waveData.Length-1) waveTimeTitle.text = "Last Wave";
+                else waveTimeTitle.text = "Next Wave";
+
+                waveText.text = "Wave " + ((int)Wave+1) + "/" + waveData.Length;
+                _groupSpace = 0;
+                SubWave = 0;
+                if(Wave < waveData.Length) UnitCount = waveData[Wave].group[SubWave].unitCount;
+                _nextWaveTime = NextWaveTime;
             }
         }
     }
-    void ProduseUnit(Transform unitPreview,int column)
+    public void Win()
     {
-        for (int i = 0; i < Mathf.Clamp(column,1,3); i++)
-        {
-            if (column == 1)
-            {
-                Transform unitTransform = Instantiate(unitPreview, transform.position, transform.rotation);
-                Unit unit = unitTransform.GetComponent<Unit>();
-                unit.resource = resourceBase;
-                unit.waypoints = Waypoints[Random.Range(0,3)].GetComponent<Waypoints>();
-            }
-            else
-            {
-                Transform unitTransform = Instantiate(unitPreview, transform.position, transform.rotation);
-                Unit unit = unitTransform.GetComponent<Unit>();
-                unit.resource = resourceBase;
-                unit.waypoints = Waypoints[i].GetComponent<Waypoints>();
-            }
-        }
+        endGamePanel.gameObject.SetActive(true);
+    }
+    void ProduceUnit(Transform unitPreview)
+    {
+        nextWaveTimePanel.gameObject.SetActive(false);
+        Transform unitTransform = Instantiate(unitPreview, transform.position, transform.rotation, unitsParent);
+        Unit unit = unitTransform.GetComponent<Unit>();
+        unit.health = health;
+        unit.resource = resourceBase;
+        unit.waypoints = Waypoints[Random.Range(0, 3)].GetComponent<Waypoints>();
+
+        Vector2 pos = Camera.main.WorldToScreenPoint(unitTransform.position);
+        Transform _healthBar = Instantiate(healthBar, pos,healthBar.rotation,healthBarSpawner);
+        _healthBar.GetComponent<HealthCoordinates>().target = unitTransform;
+        unit.healthBar = _healthBar.GetComponent<HealthBar>();
+
+    }
+
+    public void SkipNextWave()
+    {
+        _nextWaveTime = 0;
+        nextWaveTimePanel.gameObject.SetActive(false);
     }
 }

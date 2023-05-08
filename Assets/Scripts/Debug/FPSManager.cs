@@ -7,12 +7,14 @@ using UnityEngine.Profiling;
 public class FPSManager : MonoBehaviour
 {
     public Text fpsText;
+    public Image background;
     float avg = 0F;
+    public Gradient frameGradientColor;
     long ramNumber;
     void Start()
     {
         QualitySettings.vSyncCount = 0;
-        Application.targetFrameRate = 120;
+        Application.targetFrameRate = 270;
         Profiler.maxUsedMemory = 1024 * 1048576;
     }
     void Update()
@@ -22,6 +24,15 @@ public class FPSManager : MonoBehaviour
         long size = Profiler.maxUsedMemory / 1048576;
 
         fpsText.text = "FPS: " + displayValue;
+        if (displayValue <= 60)
+        {
+            float value = ((float)displayValue)/60;
+            background.color = frameGradientColor.Evaluate(value);
+        }
+        else
+        {
+            background.color = frameGradientColor.Evaluate(1);
+        }
     }
     static double ConvertBytesToMegabytes(long bytes)
     {

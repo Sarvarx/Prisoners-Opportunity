@@ -11,7 +11,7 @@ public class HealthBar : MonoBehaviour
     {
         slider.maxValue = health;
         slider.value = health;
-        InvokeRepeating("Billboard", 0,1);
+        //InvokeRepeating("Billboard", 0,1);
     }
     public void SetHealth(int health)
     {

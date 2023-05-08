@@ -1,0 +1,22 @@
+fileFormatVersion: 2
+guid: f8fbc77eb28ab1b4288ee2d4a115343b
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontNames:
+  - RockoUltraFLF
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 776cbb16066f79f4ca1008ff9b3da206, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

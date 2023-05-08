@@ -10,9 +10,11 @@ public class ResourceBase : MonoBehaviour
     public int totalResources;
 
     public Text text;
+    Animator animator;
 
     private void Start()
     {
+        animator = GetComponent<Animator>();
         InvokeRepeating("ResourceUpdate",0,0.5f);
         InvokeRepeating("Income", 0, 1f);
         resource = resourceBase;
@@ -30,6 +32,7 @@ public class ResourceBase : MonoBehaviour
     }
     public void AddResource(int value)
     {
+        animator.Play("BlobShake",-1);
         resource += value;
         totalResources += value;
         text.text = resource + "";

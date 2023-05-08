@@ -43,6 +43,7 @@ public class PlacementDialog : MonoBehaviour
         dropSystem.GetComponent<DropSystem>().OpenClose();
         tilesParent.gameObject.SetActive(false);
         previousTurret.GetComponent<TileFade>().enabled = false;
+        previousTurret.GetChild(2).gameObject.SetActive(false);
     }
     public void Cancel()
     {

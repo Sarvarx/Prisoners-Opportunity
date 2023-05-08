@@ -2,19 +2,23 @@ using UnityEngine;
 
 public class Unit : MonoBehaviour
 {
+    public bool unitActive = false;
     public int maxHealth;
     public int currentHealth;
     public int killPrice;
     public float speed = 2;
+    public float rotationSpeed = 5;
     private Transform target;
     private int wavepointIndex = 0;
     public Waypoints waypoints;
+    public Health health;
     public bool isDied = false;
     Animator animator;
     public Transform Cursor;
     public Transform MissedPoints;
     public HealthBar healthBar;
     [HideInInspector] public ResourceBase resource;
+    public Transform CoinBar;
     
     void Start()
     {
@@ -30,20 +34,21 @@ public class Unit : MonoBehaviour
     {
         if (isDied)
         {
+            healthBar.transform.localScale = Vector3.Lerp(healthBar.transform.localScale,Vector3.zero,Time.deltaTime*15);
             animator.SetBool("isDied", true);
             return;
         }
         Vector3 dir = target.position - transform.position;
         transform.Translate(dir.normalized * speed * Time.deltaTime, Space.World);
 
-        if(Vector3.Distance(transform.position, target.position) <= 0.2f)
+        if(Vector3.Distance(transform.position, target.position) <= 0.3f)
         {
             GetNextWaypoint();
         }
 
         Vector3 relativePos = target.position - transform.position;
         Quaternion toRotation = Quaternion.LookRotation(relativePos);
-        transform.rotation = Quaternion.Lerp(transform.rotation, toRotation, 5 * Time.deltaTime);
+        transform.rotation = Quaternion.Lerp(transform.rotation, toRotation, rotationSpeed * Time.deltaTime);
         
     }
 
@@ -51,8 +56,13 @@ public class Unit : MonoBehaviour
     {
         if(wavepointIndex >= waypoints.points.Length - 1)
         {
+            health.TakeHealth();
             Destroy(gameObject);
             return;
+        }
+        else
+        {
+            unitActive = true;
         }
         wavepointIndex++;
         target = waypoints.points[wavepointIndex];
@@ -74,7 +84,17 @@ public class Unit : MonoBehaviour
         {
             isDied = true;
             gameObject.tag = "Ignore";
+            gameObject.layer = LayerMask.NameToLayer("Default");
             resource.AddResource(killPrice);
+
+            Vector2 pos = Camera.main.WorldToScreenPoint(transform.position);
+            Transform coinBar = Instantiate(CoinBar, pos, CoinBar.rotation, healthBar.transform.parent);
+            ScreenSpace screenSpace = coinBar.GetComponent<ScreenSpace>();
+            screenSpace.target = transform;
+            if (screenSpace.text)
+            {
+                screenSpace.text.text = "+" + killPrice;
+            }
             Destroy(gameObject, 5.5f);
         }
     }

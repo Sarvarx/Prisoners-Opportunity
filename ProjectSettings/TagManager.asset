@@ -4,8 +4,11 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Unit
   - Ignore
+  - Units/Normal
+  - Undefined
+  - Units/Fat
+  - Units/Fast
   layers:
   - Default
   - TransparentFX
@@ -16,7 +19,7 @@ TagManager:
   - Display2
   - Map
   - Minimap
-  - 
+  - Unit
   - 
   - 
   - 

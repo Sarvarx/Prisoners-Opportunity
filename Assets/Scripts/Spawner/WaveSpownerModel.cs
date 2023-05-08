@@ -6,17 +6,11 @@ using System;
 [Serializable]
 public class WaveSpownerModel
 {
-    public int column;
-    public int line;
-    public float space;
     public float groupSpace;
-    public float waveTime;
-    public WaveSpownerModel(int column, int line, float space, float groupSpace, float waveTime)
+    public SubWaveSpawnerModel[] group;
+    public WaveSpownerModel(float groupSpace, SubWaveSpawnerModel[] group)
     {
-        this.column = column;
-        this.line = line;
-        this.space = space;
         this.groupSpace = groupSpace;
-        this.waveTime = waveTime;
+        this.group = group;
     }
 }

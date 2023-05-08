@@ -12,6 +12,7 @@ public class DropSystem : MonoBehaviour
     public Transform constructionButton;
     public Transform backScreen;
     public ResourceBase resourceBase;
+    public SoundCounter soundCounter;
 
     private Transform previewTurret = null;
     public void Drop(int index)
@@ -31,6 +32,7 @@ public class DropSystem : MonoBehaviour
             previewTurret = Instantiate(turrets[index], tile.position,Quaternion.identity);
             previewTurret.GetComponent<TileFade>().Tiles = tilesParent;
             previewTurret.GetComponent<Turret>().resourceBase = resourceBase;
+            previewTurret.GetComponent<Turret>().soundCounter = soundCounter;
             ChangeLayers(previewTurret.gameObject, "Display2");
             transform.gameObject.SetActive(false);
             PlacementDialog.gameObject.SetActive(true);

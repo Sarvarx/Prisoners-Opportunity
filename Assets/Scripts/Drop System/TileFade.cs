@@ -13,6 +13,7 @@ public class TileFade : MonoBehaviour
 
     void SetTilesAlpha(Transform tiles, float MaxDistance)
     {
+        return;
         foreach (Transform tile in tiles)
         {
             float distance = Vector3.Distance(tile.position, transform.position);
